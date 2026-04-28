@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+
+{% block title %}数据统计 - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<h2 style="margin-bottom: 20px;">数据统计</h2>
+
+<div class="stats-grid">
+    <div class="stat-card">
+        <h3>{{ total_books }}</h3>
+        <p>图书总数</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ total_readers }}</h3>
+        <p>读者总数</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ total_borrows }}</h3>
+        <p>总借阅次数</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ current_borrows }}</h3>
+        <p>当前借阅中</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ weekly_borrows }}</h3>
+        <p>本周借阅</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ monthly_borrows }}</h3>
+        <p>本月借阅</p>
+    </div>
+    <div class="stat-card">
+        <h3>{{ overdue_records }}</h3>
+        <p>逾期记录</p>
+    </div>
+</div>
+
+<div class="card">
+    <h3>图书分类统计</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>分类</th>
+                <th>数量</th>
+                <th>可借总数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stat in category_stats %}
+            <tr>
+                <td>
+                    {% if stat.category == 'literature' %}文学
+                    {% elif stat.category == 'science' %}科学
+                    {% elif stat.category == 'technology' %}技术
+                    {% elif stat.category == 'history' %}历史
+                    {% elif stat.category == 'philosophy' %}哲学
+                    {% elif stat.category == 'art' %}艺术
+                    {% else %}其他{% endif %}
+                </td>
+                <td>{{ stat.count }}</td>
+                <td>{{ stat.total_available }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>热门图书 Top 10</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>书名</th>
+                <th>作者</th>
+                <th>借阅次数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for book in popular_books %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ book.title }}</td>
+                <td>{{ book.author }}</td>
+                <td>{{ book.borrow_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="card">
+    <h3>活跃读者 Top 10</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>排名</th>
+                <th>姓名</th>
+                <th>借阅次数</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for reader in active_readers %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ reader.user.first_name }}{{ reader.user.last_name }}</td>
+                <td>{{ reader.borrow_count }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

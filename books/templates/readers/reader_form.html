@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if reader %}编辑读者{% else %}添加读者{% endif %} - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{% if reader %}编辑读者{% else %}添加读者{% endif %}</h2>
+    
+    <form method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        {% if not reader %}
+        <div class="form-group">
+            <label for="username">用户名</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div class="form-group">
+            <label for="password">密码</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        {% endif %}
+        <div class="form-group">
+            <label for="first_name">姓</label>
+            <input type="text" id="first_name" name="first_name" value="{{ reader.user.first_name|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="last_name">名</label>
+            <input type="text" id="last_name" name="last_name" value="{{ reader.user.last_name|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="email">邮箱</label>
+            <input type="email" id="email" name="email" value="{{ reader.user.email|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="phone">电话</label>
+            <input type="text" id="phone" name="phone" value="{{ reader.phone|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="address">地址</label>
+            <input type="text" id="address" name="address" value="{{ reader.address|default:'' }}">
+        </div>
+        <div class="form-group">
+            <label for="max_borrow_count">最大借阅数</label>
+            <input type="number" id="max_borrow_count" name="max_borrow_count" value="{{ reader.max_borrow_count|default:5 }}" required>
+        </div>
+        <button type="submit" class="btn btn-success">保存</button>
+        <a href="{% url 'reader_list' %}" class="btn btn-primary">取消</a>
+    </form>
+</div>
+{% endblock %}

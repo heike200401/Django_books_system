@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}归还图书 - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>确认归还</h2>
+    <p style="margin: 20px 0;">您确定要归还图书 <strong>{{ record.book.title }}</strong> 吗？</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-success">确认归还</button>
+        <a href="{% url 'borrow_list' %}" class="btn btn-primary">取消</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if book %}编辑图书{% else %}添加图书{% endif %} - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{% if book %}编辑图书{% else %}添加图书{% endif %}</h2>
+    
+    <form method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="isbn">ISBN</label>
+            <input type="text" id="isbn" name="isbn" value="{{ book.isbn|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="title">书名</label>
+            <input type="text" id="title" name="title" value="{{ book.title|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="author">作者</label>
+            <input type="text" id="author" name="author" value="{{ book.author|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="publisher">出版社</label>
+            <input type="text" id="publisher" name="publisher" value="{{ book.publisher|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="publish_date">出版日期</label>
+            <input type="date" id="publish_date" name="publish_date" value="{{ book.publish_date|date:'Y-m-d'|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="category">分类</label>
+            <select id="category" name="category" required>
+                <option value="">请选择分类</option>
+                <option value="literature" {% if book.category == 'literature' %}selected{% endif %}>文学</option>
+                <option value="science" {% if book.category == 'science' %}selected{% endif %}>科学</option>
+                <option value="technology" {% if book.category == 'technology' %}selected{% endif %}>技术</option>
+                <option value="history" {% if book.category == 'history' %}selected{% endif %}>历史</option>
+                <option value="philosophy" {% if book.category == 'philosophy' %}selected{% endif %}>哲学</option>
+                <option value="art" {% if book.category == 'art' %}selected{% endif %}>艺术</option>
+                <option value="other" {% if book.category == 'other' %}selected{% endif %}>其他</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="price">价格</label>
+            <input type="number" id="price" name="price" step="0.01" value="{{ book.price|default:'' }}" required>
+        </div>
+        <div class="form-group">
+            <label for="total_quantity">总数量</label>
+            <input type="number" id="total_quantity" name="total_quantity" value="{{ book.total_quantity|default:0 }}" required>
+        </div>
+        <div class="form-group">
+            <label for="available_quantity">可借数量</label>
+            <input type="number" id="available_quantity" name="available_quantity" value="{{ book.available_quantity|default:0 }}" required>
+        </div>
+        <div class="form-group">
+            <label for="description">简介</label>
+            <textarea id="description" name="description">{{ book.description|default:'' }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-success">保存</button>
+        <a href="{% url 'book_list' %}" class="btn btn-primary">取消</a>
+    </form>
+</div>
+{% endblock %}

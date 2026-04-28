@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}新建借阅 - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>新建借阅</h2>
+    
+    <form method="post" style="margin-top: 20px;">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="book">图书</label>
+            <select id="book" name="book" required>
+                <option value="">请选择图书</option>
+                {% for book in books %}
+                <option value="{{ book.pk }}">{{ book.title }} - {{ book.author }} (可借: {{ book.available_quantity }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="reader">读者</label>
+            <select id="reader" name="reader" required>
+                <option value="">请选择读者</option>
+                {% for reader in readers %}
+                <option value="{{ reader.pk }}">{{ reader.user.first_name }}{{ reader.user.last_name }} (已借: {{ reader.current_borrow_count }}/{{ reader.max_borrow_count }})</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="borrow_days">借阅天数</label>
+            <input type="number" id="borrow_days" name="borrow_days" value="30" required>
+        </div>
+        <button type="submit" class="btn btn-success">确认借阅</button>
+        <a href="{% url 'borrow_list' %}" class="btn btn-primary">取消</a>
+    </form>
+</div>
+{% endblock %}

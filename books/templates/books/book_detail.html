@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ book.title }} - 图书详情{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>图书详情</h2>
+        <div>
+            <a href="{% url 'book_edit' book.pk %}" class="btn btn-warning">编辑</a>
+            <a href="{% url 'book_list' %}" class="btn btn-primary">返回列表</a>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+        <p><strong>书名:</strong> {{ book.title }}</p>
+        <p><strong>作者:</strong> {{ book.author }}</p>
+        <p><strong>出版社:</strong> {{ book.publisher }}</p>
+        <p><strong>出版日期:</strong> {{ book.publish_date }}</p>
+        <p><strong>分类:</strong> {{ book.get_category_display }}</p>
+        <p><strong>价格:</strong> ¥{{ book.price }}</p>
+        <p><strong>总数量:</strong> {{ book.total_quantity }}</p>
+        <p><strong>可借数量:</strong> {{ book.available_quantity }}</p>
+        <p><strong>简介:</strong> {{ book.description|default:'暂无简介' }}</p>
+        <p><strong>创建时间:</strong> {{ book.created_at }}</p>
+        <p><strong>更新时间:</strong> {{ book.updated_at }}</p>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}借阅详情 - 图书馆管理系统{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>借阅详情</h2>
+        <div>
+            {% if record.status == 'borrowed' %}
+            <a href="{% url 'borrow_return' record.pk %}" class="btn btn-success">归还</a>
+            {% endif %}
+            <a href="{% url 'borrow_list' %}" class="btn btn-primary">返回列表</a>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <p><strong>图书:</strong> {{ record.book.title }}</p>
+        <p><strong>读者:</strong> {{ record.reader.user.first_name }}{{ record.reader.user.last_name }}</p>
+        <p><strong>借阅日期:</strong> {{ record.borrow_date|date:'Y-m-d H:i' }}</p>
+        <p><strong>应还日期:</strong> {{ record.due_date|date:'Y-m-d H:i' }}</p>
+        <p><strong>归还日期:</strong> {{ record.return_date|date:'Y-m-d H:i'|default:'未归还' }}</p>
+        <p><strong>状态:</strong> {{ record.get_status_display }}</p>
+        <p><strong>罚金:</strong> ¥{{ record.fine }}</p>
+        <p><strong>备注:</strong> {{ record.notes|default:'暂无备注' }}</p>
+    </div>
+</div>
+{% endblock %}

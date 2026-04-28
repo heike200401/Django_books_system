@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ reader.user.username }} - 读者详情{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2>读者详情</h2>
+        <div>
+            <a href="{% url 'reader_edit' reader.pk %}" class="btn btn-warning">编辑</a>
+            <a href="{% url 'reader_list' %}" class="btn btn-primary">返回列表</a>
+        </div>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <p><strong>用户名:</strong> {{ reader.user.username }}</p>
+        <p><strong>姓名:</strong> {{ reader.user.first_name }}{{ reader.user.last_name }}</p>
+        <p><strong>邮箱:</strong> {{ reader.user.email }}</p>
+        <p><strong>电话:</strong> {{ reader.phone }}</p>
+        <p><strong>地址:</strong> {{ reader.address|default:'暂无地址' }}</p>
+        <p><strong>当前借阅数:</strong> {{ reader.current_borrow_count }}</p>
+        <p><strong>最大借阅数:</strong> {{ reader.max_borrow_count }}</p>
+        <p><strong>注册时间:</strong> {{ reader.created_at }}</p>
+    </div>
+</div>
+{% endblock %}
